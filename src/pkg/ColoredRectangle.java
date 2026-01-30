@@ -18,4 +18,8 @@ public class ColoredRectangle extends Rectangle {
     public void setColor(Color color) {
         this.color = color;
     }
+
+    public void draw(Graphics2D g2d, Point startPoint, Point endPoint){
+
+    }
 }

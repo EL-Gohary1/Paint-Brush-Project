@@ -16,10 +16,14 @@ public class PaintWindow extends JPanel {
     private JButton oval;
     private JButton line;
     private JButton eraser;
+    private JButton pencil;
 
     Vector<ColoredRectangle> rectangles;
     Vector<ColoredOval> ovals;
     Vector<ColoredLine> lines;
+    Vector<Eraser> erases;
+    Vector<FreeHand> freeHands;
+
     private Color currentColor;
     //private Object currentShape;
     private enum Tool {
@@ -43,10 +47,13 @@ public class PaintWindow extends JPanel {
         rect = new JButton("rect");
         oval = new JButton("oval");
         line = new JButton("line");
+        pencil = new JButton("pencil");
         eraser = new JButton("eraser");
         rectangles = new Vector<>();
         ovals = new Vector<>();
         lines = new Vector<>();
+        erases = new Vector<>();
+        freeHands = new Vector<>();
         startPoint = new Point(0,0);
         endPoint = new Point(0,0);
         current_Tool = Tool.RECTANGLE;
@@ -102,6 +109,14 @@ public class PaintWindow extends JPanel {
         });
         this.add(rect);
 
+        pencil.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                current_Tool=Tool.PENCIL;
+            }
+        });
+        this.add(pencil);
+
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -116,13 +131,17 @@ public class PaintWindow extends JPanel {
 
                         break;
                     case RECTANGLE:
-                        ColoredRectangle r =new ColoredRectangle(startPoint.x, startPoint.y, endPoint.x-startPoint.x, endPoint.y-startPoint.y, currentColor);
+                        ColoredRectangle r = new ColoredRectangle(startPoint.x, startPoint.y, Math.abs(endPoint.x-startPoint.x), Math.abs(endPoint.y-startPoint.y), currentColor);
                         rectangles.add(r);
                         break;
                     case LINE:
                         ColoredLine l = new ColoredLine(startPoint.x, startPoint.y,endPoint.x,endPoint.y,currentColor);
                         lines.add(l);
                         break;
+                    case PENCIL:
+                        FreeHand f = new FreeHand(startPoint.x, startPoint.y, 50, 50, currentColor);
+                        freeHands.add(f);
+                    break;
                 }
                 repaint();
             }
@@ -132,6 +151,10 @@ public class PaintWindow extends JPanel {
             @Override
             public void mouseDragged(MouseEvent e) {
                 endPoint = e.getPoint();
+                if(current_Tool==Tool.PENCIL){
+                    FreeHand f = new FreeHand(endPoint.x, endPoint.y, 50, 50, currentColor);
+                    freeHands.add(f);
+                }
                 repaint();
             }
         });
@@ -144,7 +167,7 @@ public class PaintWindow extends JPanel {
 
             break;
             case RECTANGLE:
-                ColoredRectangle r = new ColoredRectangle(startPoint.x, startPoint.y, endPoint.x-startPoint.x, endPoint.y-startPoint.y, currentColor);
+                ColoredRectangle r = new ColoredRectangle(startPoint.x, startPoint.y, Math.abs(endPoint.x-startPoint.x), Math.abs(endPoint.y-startPoint.y), currentColor);
                 g2d.setColor(r.getColor());
                 g2d.drawRect(r.x, r.y, r.width, r.height);
             break;
@@ -154,7 +177,9 @@ public class PaintWindow extends JPanel {
                 g2d.drawLine((int) l.x1, (int) l.y1, (int) l.x2, (int) l.y2);
             break;
             case PENCIL:
-               ColoredOval o = new ColoredOval(startPoint.x, startPoint.y, endPoint.x-startPoint.x, endPoint.y-startPoint.y, currentColor);
+               FreeHand f = new FreeHand(startPoint.x, startPoint.y, 50, 50, currentColor);
+               g2d.setColor(f.getColor());
+               g2d.fillOval((int) f.x, (int) f.y, (int) f.width, (int) f.height);
             break;
         }
 
@@ -177,6 +202,11 @@ public class PaintWindow extends JPanel {
             g2d.setColor(l.getColor());
             g2d.drawLine((int) l.x1, (int) l.y1, (int) l.x2, (int) l.y2);
         }
+        for (FreeHand f : freeHands) {
+            g2d.setColor(f.getColor());
+            g2d.fillOval((int) f.x, (int) f.y, (int) f.width, (int) f.height);
+        }
+
 
     }
 
