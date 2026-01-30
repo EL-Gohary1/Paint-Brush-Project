@@ -144,7 +144,7 @@ public class PaintWindow extends JPanel {
 
             break;
             case RECTANGLE:
-                ColoredRectangle r =new ColoredRectangle(startPoint.x, startPoint.y, endPoint.x-startPoint.x, endPoint.y-startPoint.y, currentColor);
+                ColoredRectangle r = new ColoredRectangle(startPoint.x, startPoint.y, endPoint.x-startPoint.x, endPoint.y-startPoint.y, currentColor);
                 g2d.setColor(r.getColor());
                 g2d.drawRect(r.x, r.y, r.width, r.height);
             break;
@@ -152,6 +152,9 @@ public class PaintWindow extends JPanel {
                 ColoredLine l = new ColoredLine(startPoint.x, startPoint.y,endPoint.x,endPoint.y,currentColor);
                 g2d.setColor(l.getColor());
                 g2d.drawLine((int) l.x1, (int) l.y1, (int) l.x2, (int) l.y2);
+            break;
+            case PENCIL:
+               ColoredOval o = new ColoredOval(startPoint.x, startPoint.y, endPoint.x-startPoint.x, endPoint.y-startPoint.y, currentColor);
             break;
         }
 
