@@ -12,6 +12,8 @@ public class PaintWindow extends JPanel {
 
     private JButton blue;
     private JButton black;
+    private JButton green;
+    private JButton red;
     private JButton rect;
     private JButton oval;
     private JButton line;
@@ -20,11 +22,7 @@ public class PaintWindow extends JPanel {
     private JCheckBox checkFill;
     private JCheckBox checkDotted;
 
-    Vector<ColoredRectangle> rectangles;
-    Vector<ColoredOval> ovals;
-    Vector<ColoredLine> lines;
-    Vector<Eraser> erases;
-    Vector<FreeHand> freeHands;
+    Vector<MyShape> myShapes;
 
     private Color currentColor;
     //private Object currentShape;
@@ -46,6 +44,8 @@ public class PaintWindow extends JPanel {
 
         blue = new JButton("blue");
         black = new JButton("black");
+        red = new JButton("red");
+        green = new JButton("green");
         rect = new JButton("rect");
         oval = new JButton("oval");
         line = new JButton("line");
@@ -53,11 +53,7 @@ public class PaintWindow extends JPanel {
         eraser = new JButton("eraser");
         checkFill = new JCheckBox("isFill");
         checkDotted = new JCheckBox("isDotted");
-        rectangles = new Vector<>();
-        ovals = new Vector<>();
-        lines = new Vector<>();
-        erases = new Vector<>();
-        freeHands = new Vector<>();
+        myShapes=new Vector<>();
         startPoint = new Point(0,0);
         endPoint = new Point(0,0);
         current_Tool = Tool.RECTANGLE;
@@ -79,8 +75,25 @@ public class PaintWindow extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 currentColor=Color.BLACK;
             }
+
         });
         this.add(black);
+        green.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentColor=Color.GREEN;
+            }
+
+        });
+        this.add(green);
+        red.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentColor=Color.RED;
+            }
+
+        });
+        this.add(red);
 
         oval.addActionListener(new ActionListener() {
             @Override
@@ -150,23 +163,23 @@ public class PaintWindow extends JPanel {
                 switch(current_Tool){
                     case OVAL:
                         ColoredOval o = new ColoredOval(startPoint.x, startPoint.y, Math.abs(endPoint.x-startPoint.x), Math.abs(endPoint.y-startPoint.y), currentColor,isFilled,isDotted);
-                        ovals.add(o);
+                        myShapes.add(o);
                         break;
                     case RECTANGLE:
                         ColoredRectangle r = new ColoredRectangle(startPoint.x, startPoint.y, Math.abs(endPoint.x-startPoint.x), Math.abs(endPoint.y-startPoint.y), currentColor,isFilled,isDotted);
-                        rectangles.add(r);
+                        myShapes.add(r);
                         break;
                     case LINE:
                         ColoredLine l = new ColoredLine(startPoint.x, startPoint.y,endPoint.x,endPoint.y,currentColor,isDotted);
-                        lines.add(l);
+                        myShapes.add(l);
                         break;
                     case PENCIL:
                         FreeHand f = new FreeHand(startPoint.x, startPoint.y, 50, 50, currentColor);
-                        freeHands.add(f);
+                        myShapes.add(f);
                     break;
                     case ERASER:
                         Eraser er = new Eraser(startPoint.x, startPoint.y, 50, 50);
-                        erases.add(er);
+                        myShapes.add(er);
                         break;
                 }
                 repaint();
@@ -179,11 +192,11 @@ public class PaintWindow extends JPanel {
                 endPoint = e.getPoint();
                 if(current_Tool==Tool.PENCIL){
                     FreeHand f = new FreeHand(endPoint.x, endPoint.y, 50, 50, currentColor);
-                    freeHands.add(f);
+                    myShapes.add(f);
                 }
                 if(current_Tool==Tool.ERASER){
                     Eraser er = new Eraser(endPoint.x, endPoint.y, 50, 50);
-                    erases.add(er);
+                    myShapes.add(er);
                 }
                 repaint();
             }
@@ -218,23 +231,10 @@ public class PaintWindow extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        for(MyShape shape: myShapes){
+            shape.draw(g2d);
+        }
         draw(g2d);
-        for (Eraser er : erases) {
-            er.draw(g2d);
-        }
-        for (ColoredRectangle r : rectangles) {
-            r.draw(g2d);
-        }
-        for (ColoredOval o : ovals) {
-            o.draw(g2d);
-        }
-        for (ColoredLine l : lines) {
-            l.draw(g2d);
-        }
-        for (FreeHand f : freeHands) {
-            f.draw(g2d);
-        }
-
 
 
     }

@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
 
-public class ColoredOval extends Ellipse2D.Double {
+public class ColoredOval extends Ellipse2D.Double implements MyShape {
 private Color c;
 boolean isFilled;
 boolean isDotted;

@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 
 
-public class ColoredLine extends Line2D.Double {
+public class ColoredLine extends Line2D.Double implements MyShape{
     private Color c;
     private boolean isDotted;
 

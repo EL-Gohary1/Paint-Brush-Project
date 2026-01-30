@@ -2,7 +2,7 @@ package pkg;
 
 import java.awt.*;
 
-public class ColoredRectangle extends Rectangle {
+public class ColoredRectangle extends Rectangle implements MyShape{
 
     private Color color;
     private boolean isFilled;

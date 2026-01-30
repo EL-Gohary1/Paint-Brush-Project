@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         JFrame frame4 = new JFrame();
         frame4.setTitle("Paint");
-        frame4.setSize(500,500);
+        frame4.setSize(800,600);
         frame4.setContentPane(new PaintWindow());
         frame4.setVisible(true);
     }
