@@ -5,7 +5,7 @@ import java.awt.*;
 public class FreeHand extends ColoredOval {
 
     public FreeHand(int x, int y, int width, int height, Color color) {
-        super(x, y, width, height, color);
+        super(x, y, width, height, color,true,false);
         moveTo(x,y);
     }
     public void moveTo(int mouseX, int mouseY) {

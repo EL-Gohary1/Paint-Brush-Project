@@ -64,6 +64,7 @@ public class PaintWindow extends JPanel {
         currentColor=Color.black;
         isDotted = false;
         isFilled = false;
+        this.setBackground(Color.white);
 
         blue.addActionListener(new ActionListener() {
             @Override
@@ -148,20 +149,25 @@ public class PaintWindow extends JPanel {
                 endPoint = e.getPoint();
                 switch(current_Tool){
                     case OVAL:
-
+                        ColoredOval o = new ColoredOval(startPoint.x, startPoint.y, Math.abs(endPoint.x-startPoint.x), Math.abs(endPoint.y-startPoint.y), currentColor,isFilled,isDotted);
+                        ovals.add(o);
                         break;
                     case RECTANGLE:
                         ColoredRectangle r = new ColoredRectangle(startPoint.x, startPoint.y, Math.abs(endPoint.x-startPoint.x), Math.abs(endPoint.y-startPoint.y), currentColor,isFilled,isDotted);
                         rectangles.add(r);
                         break;
                     case LINE:
-                        ColoredLine l = new ColoredLine(startPoint.x, startPoint.y,endPoint.x,endPoint.y,currentColor);
+                        ColoredLine l = new ColoredLine(startPoint.x, startPoint.y,endPoint.x,endPoint.y,currentColor,isDotted);
                         lines.add(l);
                         break;
                     case PENCIL:
                         FreeHand f = new FreeHand(startPoint.x, startPoint.y, 50, 50, currentColor);
                         freeHands.add(f);
                     break;
+                    case ERASER:
+                        Eraser er = new Eraser(startPoint.x, startPoint.y, 50, 50);
+                        erases.add(er);
+                        break;
                 }
                 repaint();
             }
@@ -175,6 +181,10 @@ public class PaintWindow extends JPanel {
                     FreeHand f = new FreeHand(endPoint.x, endPoint.y, 50, 50, currentColor);
                     freeHands.add(f);
                 }
+                if(current_Tool==Tool.ERASER){
+                    Eraser er = new Eraser(endPoint.x, endPoint.y, 50, 50);
+                    erases.add(er);
+                }
                 repaint();
             }
         });
@@ -184,16 +194,16 @@ public class PaintWindow extends JPanel {
     public void draw(Graphics2D g2d){
         switch(current_Tool){
             case OVAL:
-
+                ColoredOval o = new ColoredOval(startPoint.x, startPoint.y, Math.abs(endPoint.x-startPoint.x), Math.abs(endPoint.y-startPoint.y), currentColor, isFilled,isDotted);
+                o.draw(g2d);
             break;
             case RECTANGLE:
                 ColoredRectangle r = new ColoredRectangle(startPoint.x, startPoint.y, Math.abs(endPoint.x-startPoint.x), Math.abs(endPoint.y-startPoint.y), currentColor, isFilled,isDotted);
                 r.draw(g2d);
             break;
             case LINE:
-                ColoredLine l = new ColoredLine(startPoint.x, startPoint.y,endPoint.x,endPoint.y,currentColor);
-                g2d.setColor(l.getColor());
-                g2d.drawLine((int) l.x1, (int) l.y1, (int) l.x2, (int) l.y2);
+                ColoredLine l = new ColoredLine(startPoint.x, startPoint.y,endPoint.x,endPoint.y,currentColor,isDotted);
+                l.draw(g2d);
             break;
             case PENCIL:
                FreeHand f = new FreeHand(startPoint.x, startPoint.y, 50, 50, currentColor);
@@ -209,21 +219,22 @@ public class PaintWindow extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         draw(g2d);
+        for (Eraser er : erases) {
+            er.draw(g2d);
+        }
         for (ColoredRectangle r : rectangles) {
             r.draw(g2d);
         }
         for (ColoredOval o : ovals) {
-            g2d.setColor(o.getColor());
-            g2d.drawOval((int) o.x, (int) o.y, (int) o.width, (int) o.height);
+            o.draw(g2d);
         }
         for (ColoredLine l : lines) {
-            g2d.setColor(l.getColor());
-            g2d.drawLine((int) l.x1, (int) l.y1, (int) l.x2, (int) l.y2);
+            l.draw(g2d);
         }
         for (FreeHand f : freeHands) {
-            g2d.setColor(f.getColor());
-            g2d.fillOval((int) f.x, (int) f.y, (int) f.width, (int) f.height);
+            f.draw(g2d);
         }
+
 
 
     }
