@@ -1,6 +1,8 @@
 package pkg;//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 
+import javax.swing.*;
+
 public class Main {
     public static void main(String[] args) {
         //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
@@ -12,5 +14,11 @@ public class Main {
             // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
             System.out.println("i = " + i);
         }
+
+        JFrame frame4 = new JFrame();
+        frame4.setTitle("Paint");
+        frame4.setSize(500,500);
+        frame4.setContentPane(new PaintWindow());
+        frame4.setVisible(true);
     }
 }
