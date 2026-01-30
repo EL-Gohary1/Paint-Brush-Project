@@ -17,6 +17,8 @@ public class PaintWindow extends JPanel {
     private JButton line;
     private JButton eraser;
     private JButton pencil;
+    private JCheckBox checkFill;
+    private JCheckBox checkDotted;
 
     Vector<ColoredRectangle> rectangles;
     Vector<ColoredOval> ovals;
@@ -49,6 +51,8 @@ public class PaintWindow extends JPanel {
         line = new JButton("line");
         pencil = new JButton("pencil");
         eraser = new JButton("eraser");
+        checkFill = new JCheckBox("isFill");
+        checkDotted = new JCheckBox("isDotted");
         rectangles = new Vector<>();
         ovals = new Vector<>();
         lines = new Vector<>();
@@ -117,6 +121,22 @@ public class PaintWindow extends JPanel {
         });
         this.add(pencil);
 
+        checkFill.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                isFilled=!isFilled;
+            }
+        });
+        this.add(checkFill);
+
+        checkDotted.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                isDotted=!isDotted;
+            }
+        });
+        this.add(checkDotted);
+
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -131,7 +151,7 @@ public class PaintWindow extends JPanel {
 
                         break;
                     case RECTANGLE:
-                        ColoredRectangle r = new ColoredRectangle(startPoint.x, startPoint.y, Math.abs(endPoint.x-startPoint.x), Math.abs(endPoint.y-startPoint.y), currentColor);
+                        ColoredRectangle r = new ColoredRectangle(startPoint.x, startPoint.y, Math.abs(endPoint.x-startPoint.x), Math.abs(endPoint.y-startPoint.y), currentColor,isFilled,isDotted);
                         rectangles.add(r);
                         break;
                     case LINE:
@@ -167,9 +187,8 @@ public class PaintWindow extends JPanel {
 
             break;
             case RECTANGLE:
-                ColoredRectangle r = new ColoredRectangle(startPoint.x, startPoint.y, Math.abs(endPoint.x-startPoint.x), Math.abs(endPoint.y-startPoint.y), currentColor);
-                g2d.setColor(r.getColor());
-                g2d.drawRect(r.x, r.y, r.width, r.height);
+                ColoredRectangle r = new ColoredRectangle(startPoint.x, startPoint.y, Math.abs(endPoint.x-startPoint.x), Math.abs(endPoint.y-startPoint.y), currentColor, isFilled,isDotted);
+                r.draw(g2d);
             break;
             case LINE:
                 ColoredLine l = new ColoredLine(startPoint.x, startPoint.y,endPoint.x,endPoint.y,currentColor);
@@ -191,8 +210,7 @@ public class PaintWindow extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         draw(g2d);
         for (ColoredRectangle r : rectangles) {
-            g2d.setColor(r.getColor());
-            g2d.drawRect(r.x, r.y, r.width, r.height);
+            r.draw(g2d);
         }
         for (ColoredOval o : ovals) {
             g2d.setColor(o.getColor());
