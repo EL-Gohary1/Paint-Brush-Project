@@ -1,11 +1,15 @@
 package pkg;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Vector;
 
 public class PaintWindow extends JPanel {
@@ -21,6 +25,9 @@ public class PaintWindow extends JPanel {
     private JButton pencil;
     private JCheckBox checkFill;
     private JCheckBox checkDotted;
+    private JButton save;
+    private JButton open;
+    BufferedImage myImage;
 
     Vector<MyShape> myShapes;
 
@@ -53,6 +60,9 @@ public class PaintWindow extends JPanel {
         eraser = new JButton("eraser");
         checkFill = new JCheckBox("isFill");
         checkDotted = new JCheckBox("isDotted");
+        save = new JButton("save");
+        open = new JButton("open");
+
         myShapes=new Vector<>();
         startPoint = new Point(0,0);
         endPoint = new Point(0,0);
@@ -78,6 +88,7 @@ public class PaintWindow extends JPanel {
 
         });
         this.add(black);
+
         green.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -86,6 +97,7 @@ public class PaintWindow extends JPanel {
 
         });
         this.add(green);
+
         red.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -150,6 +162,52 @@ public class PaintWindow extends JPanel {
             }
         });
         this.add(checkDotted);
+
+        save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    BufferedImage bImage = new BufferedImage(1500, 700, BufferedImage.TYPE_INT_ARGB);
+                    Graphics2D g2d = bImage.createGraphics();
+                    g2d.setColor(Color.WHITE);
+                    g2d.fillRect(0, 0,1500, 700);
+                    for (MyShape shape : myShapes) {
+                        shape.draw(g2d);
+                    }
+                    try {
+                        ImageIO.write(bImage, "png", new File("myshape.png"));
+                        System.out.println("Saved Successfully!");
+                    } catch (IOException b) {
+                        b.printStackTrace();
+                    }
+                }
+            });
+        this.add(save);
+
+        open.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showOpenDialog(null);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        File selectedFile = fileChooser.getSelectedFile();
+                        BufferedImage importedImage = ImageIO.read(selectedFile);
+                        myImage = new BufferedImage(
+                                importedImage.getWidth(),
+                                importedImage.getHeight(),
+                                BufferedImage.TYPE_INT_ARGB
+                        );
+                        Graphics2D g2d = myImage.createGraphics();
+                        g2d.drawImage(importedImage, 0, 0, null);
+                        g2d.dispose();
+                        repaint();
+                    } catch (IOException b) {
+                        b.printStackTrace();
+                    }
+                }
+            }
+        });
+        this.add(open);
 
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -231,6 +289,9 @@ public class PaintWindow extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        if (myImage != null) {
+            g2d.drawImage(myImage, 0, 0, null);
+        }
         for(MyShape shape: myShapes){
             shape.draw(g2d);
         }
