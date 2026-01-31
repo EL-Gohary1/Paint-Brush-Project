@@ -27,6 +27,8 @@ public class PaintWindow extends JPanel {
     private JCheckBox checkDotted;
     private JButton save;
     private JButton open;
+    private JButton undo;
+    private JButton clearAll;
     BufferedImage myImage;
 
     Vector<MyShape> myShapes;
@@ -60,6 +62,8 @@ public class PaintWindow extends JPanel {
         eraser = new JButton("eraser");
         checkFill = new JCheckBox("isFill");
         checkDotted = new JCheckBox("isDotted");
+        clearAll=new JButton("clearAll");
+        undo=new JButton("Undo");
         save = new JButton("save");
         open = new JButton("open");
 
@@ -162,6 +166,28 @@ public class PaintWindow extends JPanel {
             }
         });
         this.add(checkDotted);
+
+        clearAll.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                myShapes.clear();
+                startPoint = null;
+                endPoint = null;
+                repaint();
+            }
+        });
+        this.add(clearAll);
+
+        undo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                myShapes.removeLast();
+                startPoint = null;
+                endPoint = null;
+                repaint();
+            }
+        });
+        this.add(undo);
 
         save.addActionListener(new ActionListener() {
             @Override
@@ -295,9 +321,9 @@ public class PaintWindow extends JPanel {
         for(MyShape shape: myShapes){
             shape.draw(g2d);
         }
-        draw(g2d);
-
-
+        if(startPoint != null && endPoint != null) {
+            draw(g2d);
+        }
     }
 
 }
