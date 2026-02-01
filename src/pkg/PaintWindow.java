@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -66,6 +67,8 @@ public class PaintWindow extends JPanel {
         undo=new JButton("Undo");
         save = new JButton("save");
         open = new JButton("open");
+        Path2D mergedShapes = new Path2D.Double();
+
 
         myShapes=new Vector<>();
         startPoint = new Point(0,0);
@@ -181,7 +184,7 @@ public class PaintWindow extends JPanel {
         undo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                myShapes.removeLast();
+                myShapes.removeElementAt(myShapes.size() -1);
                 startPoint = null;
                 endPoint = null;
                 repaint();
@@ -293,6 +296,7 @@ public class PaintWindow extends JPanel {
             case OVAL:
                 ColoredOval o = new ColoredOval(startPoint.x, startPoint.y, Math.abs(endPoint.x-startPoint.x), Math.abs(endPoint.y-startPoint.y), currentColor, isFilled,isDotted);
                 o.draw(g2d);
+
             break;
             case RECTANGLE:
                 ColoredRectangle r = new ColoredRectangle(startPoint.x, startPoint.y, Math.abs(endPoint.x-startPoint.x), Math.abs(endPoint.y-startPoint.y), currentColor, isFilled,isDotted);
@@ -315,6 +319,10 @@ public class PaintWindow extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON
+        );
         if (myImage != null) {
             g2d.drawImage(myImage, 0, 0, null);
         }
