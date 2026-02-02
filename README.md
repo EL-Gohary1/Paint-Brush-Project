@@ -3,11 +3,11 @@
 [![Java](https://img.shields.io/badge/Language-Java-007396.svg)](https://www.oracle.com/java/)
 [![OOP](https://img.shields.io/badge/Design-OOP-blue.svg)](#)
 [![GUI](https://img.shields.io/badge/Interface-Swing-orange.svg)](#)
-[![Status](https://img.shields.io/badge/Status-Work%20In%20Progress-yellow.svg)](#)
+[![Status](https://img.shields.io/badge/Status-Done-brightgreen.svg)](#)
 
 <img width="1048" height="691" alt="image" src="https://github.com/user-attachments/assets/8d9698bc-1423-4ba0-a04b-d98d36cfebe2" />
 
-A Java-based desktop drawing application designed with object-oriented principles. The project aims to provide a clean, extensible painting environment where shapes, tools, and user interactions are modular and easy to extend.
+A Java-based desktop drawing application designed with object-oriented principles. The project aims to provide a clean, extensible painting environment where shapes, tools, and user interactions are m[...]
 > Elegant, modular, and interactive — Paint-Brush-Project is a small but expressive painting program demonstrating how clean design yields flexible GUI applications.
 
 ---
