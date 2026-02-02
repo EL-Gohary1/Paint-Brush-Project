@@ -1,4 +1,7 @@
-# Paint-Brush-Project
+# Paint-Brush-Project 
+Authors:
+Ahmed Zahran --> Software Test Engineer 
+Mahmoud El Gohary --> Software Test Engineer
 
 [![Java](https://img.shields.io/badge/Language-Java-007396.svg)](https://www.oracle.com/java/)
 [![OOP](https://img.shields.io/badge/Design-OOP-blue.svg)](#)
@@ -49,7 +52,6 @@ This section documents the practical process that produced the application, focu
    - Emphasized modularity and clear responsibilities to make future expansion straightforward.
 
 2. UI sketching and UX considerations
-   - Sketched the main window layout: toolbar (top/side), canvas (center), status bar (bottom).
    - Chose affordances for common actions: click-and-drag to draw, modifier keys for constrained shapes, and undo/redo support planned.
    - Selected a minimal, clear palette of controls to avoid clutter.
 
@@ -58,7 +60,7 @@ This section documents the practical process that produced the application, focu
    - Defined lifecycle events for input (press, drag, release) so tools remain stateless and reusable.
 
 4. Implementing the drawing canvas
-   - Built a custom canvas component that:
+   - Built a custom Panle component that:
      - Maintains a backing model (list of shapes)
      - Handles repainting efficiently
      - Provides coordinate transforms and pixel-accurate rendering
@@ -73,7 +75,7 @@ This section documents the practical process that produced the application, focu
    - Created shape classes that know how to:
      - Store their own geometry and style (color, stroke)
      - Render themselves on a Graphics2D surface
-     - Provide simple operations (move, resize, hit-test)
+     - Provide simple operations (draw, set color)
    - Used Java2D primitives for crisp rendering and stroke controls.
 
 7. Persistence & document management (conceptual)
@@ -81,7 +83,6 @@ This section documents the practical process that produced the application, focu
    - Considered file formats and simple export options (e.g., PNG export of the canvas) for sharing.
 
 8. Polishing and UX refinements
-   - Added tooltips, keyboard shortcuts, and a status bar with helpful hints.
    - Tuned cursor feedback and selection handles for a more responsive feel.
    - Chose default colors and sensible stroke options for immediate usability.
 
@@ -91,7 +92,7 @@ This section documents the practical process that produced the application, focu
 
 10. Packaging and documentation
     - Prepared a README (this file) with instructions and architectural notes.
-    - Included example images/screenshots to demonstrate the main UI and features.
+    - Included example images/screenshots to demonstrate the main Class structure.
 
 ---
 
@@ -99,7 +100,6 @@ This section documents the practical process that produced the application, focu
 
 - Drawing primitives: line, rectangle, ellipse, and freehand
 - Tool system: switchable tools that react to mouse events
-- Style control: color selection and stroke width adjustments
 - Hit-testing: select and manipulate existing shapes
 - Smooth drawing: responsive drag updates for a natural drawing feel
 - Extensible: add new tools and shapes with minimal changes to core code
@@ -110,7 +110,7 @@ This section documents the practical process that produced the application, focu
 
 1. Launch the application (built as a standard Java application).
 2. Select a tool from the toolbar (e.g., Rectangle, Freehand).
-3. Choose color and stroke width.
+3. Choose color and stroke style ( dotted, filled).
 4. Click and drag on the canvas to draw.
 5. Use selection tool to move or resize shapes.
 6. Export canvas or save your document (if available in UI).
@@ -135,13 +135,6 @@ Contributions are welcome. Suggested workflow:
 - Keep changes focused and document user-facing behavior in the PR description.
 
 Please follow the existing design patterns and keep new features modular.
-
----
-
-## License & credits
-
-- This project is provided as-is for educational purposes. Please check the repository for the explicit license file or contact the maintainer for licensing details.
-- Created by the repository owner and contributors — thank you to everyone who helped with design and testing.
 
 ---
 
