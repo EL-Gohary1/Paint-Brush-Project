@@ -1,6 +1,7 @@
 # Paint-Brush-Project 
 Authors:
-Ahmed Zahran --> Software Test Engineer 
+Ahmed Zahran --> Software Test Engineer      
+
 Mahmoud El Gohary --> Software Test Engineer
 
 [![Java](https://img.shields.io/badge/Language-Java-007396.svg)](https://www.oracle.com/java/)
