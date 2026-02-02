@@ -7,8 +7,7 @@
 
 <img width="1048" height="691" alt="image" src="https://github.com/user-attachments/assets/8d9698bc-1423-4ba0-a04b-d98d36cfebe2" />
 
-A Java-based desktop drawing application designed with object-oriented principles. The project aims to provide a clean, extensible painting environment where shapes, tools, and user interactions are m[...]
-> Elegant, modular, and interactive — Paint-Brush-Project is a small but expressive painting program demonstrating how clean design yields flexible GUI applications.
+A Java-based desktop drawing application designed with object-oriented principles. The project aims to provide a clean, extensible painting environment where shapes, tools, and user interactions are Elegant, modular, and interactive — Paint-Brush-Project is a small but expressive painting program demonstrating how clean design yields flexible GUI applications.
 
 ---
 
